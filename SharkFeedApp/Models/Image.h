@@ -12,5 +12,6 @@
   
 @property(nonatomic,strong) NSString *imageURL;
 @property(nonatomic,strong) NSString *imageId;
+
   
 @end

@@ -17,8 +17,13 @@
 #define URL_EXTRAS "url_t,url_c,url_l,url_o"
 #define URL_SAFESEARCH "1"
 
+@interface  HTTPService() {
+  int pageNumber;
+}
+@end
+
 @implementation HTTPService
-  
+
 + (id) instance {
   static HTTPService *sharedInstance = nil;
   
@@ -29,14 +34,15 @@
   }
   return sharedInstance;
 }
-  
+
 - (void) getImages:(nullable onComplete)completionHandler {
   
   NSURLSession *session = [NSURLSession sharedSession];
   
   // generate random number for page number
   //int randomInt = arc4random_uniform(25);
-  int pageNumber = 1;
+  NSLog(@"Fetching images from page: %@",[@(pageNumber) stringValue]);
+  pageNumber += 1;
   
   NSDictionary *parameters = @{
                                @"method":@URL_METHOD,
@@ -84,36 +90,36 @@
   }];
   [downloadTask resume];
 }
-  
-  // MARK: - URLByAppendingQueryParameters withQueryParameters
+
+// MARK: - URLByAppendingQueryParameters withQueryParameters
 - (NSURL *_Nonnull)URLByAppendingQueryParameters:(NSString *_Nonnull)baseURL withQueryParameters:(NSDictionary *)queryParameters
-  {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",baseURL]];
-    if (queryParameters == nil) {
-      return url;
-    } else if (queryParameters.count == 0) {
-      return url;
-    }
-    
-    NSArray *queryKeys = [queryParameters allKeys];
-    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
-    NSMutableArray * newQueryItems = [NSMutableArray arrayWithCapacity:1];
-    
-    for (NSURLQueryItem * item in components.queryItems) {
-      if (![queryKeys containsObject:item.name]) {
-        [newQueryItems addObject:item];
-      }
-    }
-    
-    for (NSString *key in queryKeys) {
-      NSURLQueryItem * newQueryItem = [[NSURLQueryItem alloc] initWithName:key value:queryParameters[key]];
-      [newQueryItems addObject:newQueryItem];
-    }
-    
-    [components setQueryItems:newQueryItems];
-    
-    return [components URL];
+{
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",baseURL]];
+  if (queryParameters == nil) {
+    return url;
+  } else if (queryParameters.count == 0) {
+    return url;
   }
   
+  NSArray *queryKeys = [queryParameters allKeys];
+  NSURLComponents *components = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
+  NSMutableArray * newQueryItems = [NSMutableArray arrayWithCapacity:1];
   
-  @end
+  for (NSURLQueryItem * item in components.queryItems) {
+    if (![queryKeys containsObject:item.name]) {
+      [newQueryItems addObject:item];
+    }
+  }
+  
+  for (NSString *key in queryKeys) {
+    NSURLQueryItem * newQueryItem = [[NSURLQueryItem alloc] initWithName:key value:queryParameters[key]];
+    [newQueryItems addObject:newQueryItem];
+  }
+  
+  [components setQueryItems:newQueryItems];
+  
+  return [components URL];
+}
+
+
+@end
