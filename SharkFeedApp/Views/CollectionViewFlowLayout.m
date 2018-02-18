@@ -1,0 +1,62 @@
+//
+//  CollectionViewFlowLayout.m
+//  SharkFeedApp
+//
+//  Created by Jimit Shah on 2/17/18.
+//  Copyright © 2018 Jimit Shah. All rights reserved.
+//
+
+#import "CollectionViewFlowLayout.h"
+
+@interface CollectionViewFlowLayout() {
+  CGFloat inset;
+  CGFloat spacing;
+  CGFloat lineSpacing;
+}
+  @end
+
+@implementation CollectionViewFlowLayout
+  
+- (void)prepareLayout {
+  inset = 15.0;
+  spacing = 10.0;
+  lineSpacing = 15.0;
+  self.collectionView.delegate = self;
+}
+  
+#pragma mark - UICollection View Flow Layout
+  
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  
+  CGRect screenRect = [[UIScreen mainScreen] bounds];
+  CGFloat screenWidth = screenRect.size.width;
+  CGFloat screenHeight = screenRect.size.height;
+  float cellWidth = 0;
+  
+  // define number of columns based on potrait/landscape mode.
+  if (screenWidth > screenHeight) {
+    cellWidth = ((screenWidth) / 3.0 - (inset + spacing));
+  } else {
+    cellWidth = ((screenWidth) / 3.0 - (inset + spacing));
+  }
+  
+  CGSize size = CGSizeMake(cellWidth, cellWidth);
+  return size;
+}
+  
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+  
+  return UIEdgeInsetsMake(inset, inset, inset, inset);
+}
+  
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+  
+  return inset;
+}
+  
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+  
+  return inset;
+}
+
+@end

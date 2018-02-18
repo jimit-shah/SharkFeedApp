@@ -7,21 +7,35 @@
 //
 
 #import "FeedsViewController.h"
+#import "AppDelegate.h"
 #import "HTTPService.h"
 #import "Image.h"
 #import "ImageCell.h"
+//#import "CollectionViewFlowLayout.h"
 
-@interface FeedsViewController ()
+@interface FeedsViewController () {
+  AppDelegate *appDelegate;
+  NSManagedObjectContext *context;
+  CGFloat inset;
+  CGFloat spacing;
+  CGFloat lineSpacing;
+}
   
 #pragma mark - Properties
   
   @property (strong, nonatomic) NSMutableArray *imageList;
   @property (strong, nonatomic) UIActivityIndicatorView *spinner;
+  @property (strong, nonatomic) UIImage *logo;
+  @property (strong, nonatomic) UIImageView *titleImageView;
   
 #pragma mark - Outlets
   
   @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-  
+//  @property (weak, nonatomic) IBOutlet CollectionViewFlowLayout *flowLayout;
+//  @property (weak, nonatomic) IBOutlet CollectionViewFlowLayout *flowLayout;
+//
+//  @property (weak, nonatomic) IBOutlet CollectionViewFlowLayout *flowLayout;
+  @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *flowLayout;
   
   @end
 
@@ -35,27 +49,43 @@
   self.collectionView.dataSource = self;
   self.collectionView.delegate = self;
   
-  self.spinner = [[UIActivityIndicatorView alloc]init];
-  
   if (_imageList == nil) {
     _imageList = [[NSMutableArray alloc]init];
   }
+  // configure UI
+  [self configureUI];
   
+  // get Images and reload collection view
   [self getImages];
   
-  // reload collection view -- no need as it's part of getImages
-  //[self.collectionView reloadData];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   
+  [self.collectionView.collectionViewLayout invalidateLayout];
+  [self.flowLayout invalidateLayout];
 }
   
+- (void)viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
+  
+  if(UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication.statusBarOrientation)) {
+    
+  } else {
+    
+  }
+// [self.flowLayout invalidateLayout];
+  [self.collectionView.collectionViewLayout invalidateLayout];
+  [[self collectionView].collectionViewLayout invalidateLayout];
+  [[self collectionView] reloadData];
+  
+    
+}
 #pragma mark - Actions
   
   
   
-#pragma mark fetchDogs
-  //- (IBAction)fetchData:(id)sender {
-  //  [self getImages];
-  //}
+#pragma mark fetchImages
   
 -(void) getImages {
   // start spinner
@@ -75,7 +105,7 @@
             for (NSDictionary *images in photo) {
               Image *image = [[Image alloc]init];
               image.imageId = [images objectForKey:@"id"];
-              image.imageURL = [images objectForKey:@"url_t"];
+              image.imageURL = [images objectForKey:@"url_c"];
               
               [array addObject:image];
             }
@@ -105,7 +135,18 @@
     [self stopSpinner:self :_spinner];
   });
 }
+
+# pragma makr configureUI
+- (void)configureUI {
+  inset = 15.0;
+  spacing = 5.0;
+  lineSpacing = 5.0;
   
+  self.spinner = [[UIActivityIndicatorView alloc]init];
+  self.logo = [UIImage imageNamed:@"SharkFeed_logosmall"];
+  self.titleImageView = [[UIImageView alloc] initWithImage:[self logo]] ;
+  self.navigationItem.titleView = [self titleImageView];
+}
   
 #pragma mark Start/Show spinner
 -(void) startSpinner:(UIViewController *)controller :(UIActivityIndicatorView*)activityIndicator {
@@ -115,9 +156,6 @@
   
   [[self collectionView]setAlpha:0.6];
   
-  //  for (UIView *subview in controller.view.subviews) {
-  //    [subview setAlpha:0.6];
-  //  }
   
   [[self collectionView]setBackgroundColor:[UIColor darkGrayColor]];
   [controller.view addSubview:activityIndicator];
@@ -131,9 +169,7 @@
     
     [[self collectionView]setBackgroundColor:[UIColor whiteColor]];
     [[self collectionView]setAlpha:1.0];
-    //    for (UIView *subview in controller.view.subviews) {
-    //      [subview setAlpha:1.0];
-    //    }
+   
     [activityIndicator stopAnimating];
   }
 }
@@ -176,6 +212,43 @@
    NSLog(@"selected=%@", selected);
    }
    */
+  
+  
+#pragma mark - UICollection View Flow Layout
+  
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  
+  CGRect screenRect = [[UIScreen mainScreen] bounds];
+  CGFloat screenWidth = screenRect.size.width;
+  CGFloat screenHeight = screenRect.size.height;
+  float cellWidth = 0;
+  
+  // define number of columns based on potrait/landscape mode.
+  if (screenWidth > screenHeight) {
+    cellWidth = ((screenWidth) / 5.0 - (inset + spacing));
+  } else {
+    cellWidth = ((screenWidth) / 3.0 - (inset + spacing));
+  }
+  
+  CGSize size = CGSizeMake(cellWidth, cellWidth);
+  return size;
+}
+  
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+  
+  return UIEdgeInsetsMake(inset, inset, inset, inset);
+}
+  
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+  
+  return inset;
+}
+  
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+  
+  return inset;
+}
+  
   
   @end
 

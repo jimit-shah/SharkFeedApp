@@ -16,6 +16,8 @@
 		EFDA99722033F493005CD5B4 /* HTTPService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDA99712033F493005CD5B4 /* HTTPService.m */; };
 		EFDA9978203415E2005CD5B4 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDA9977203415E2005CD5B4 /* Image.m */; };
 		EFDA997E2038BAE5005CD5B4 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDA997D2038BAE5005CD5B4 /* ImageCell.m */; };
+		EFDA99812038EB18005CD5B4 /* CollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDA99802038EB18005CD5B4 /* CollectionViewFlowLayout.m */; };
+		EFDA9984203938BD005CD5B4 /* ResponsiveLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDA9983203938BD005CD5B4 /* ResponsiveLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,10 @@
 		EFDA9977203415E2005CD5B4 /* Image.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		EFDA997C2038BAE5005CD5B4 /* ImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		EFDA997D2038BAE5005CD5B4 /* ImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
+		EFDA997F2038EB18005CD5B4 /* CollectionViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		EFDA99802038EB18005CD5B4 /* CollectionViewFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		EFDA9982203938BD005CD5B4 /* ResponsiveLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponsiveLayout.h; sourceTree = "<group>"; };
+		EFDA9983203938BD005CD5B4 /* ResponsiveLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponsiveLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +103,10 @@
 			children = (
 				EFDA997C2038BAE5005CD5B4 /* ImageCell.h */,
 				EFDA997D2038BAE5005CD5B4 /* ImageCell.m */,
+				EFDA997F2038EB18005CD5B4 /* CollectionViewFlowLayout.h */,
+				EFDA99802038EB18005CD5B4 /* CollectionViewFlowLayout.m */,
+				EFDA9982203938BD005CD5B4 /* ResponsiveLayout.h */,
+				EFDA9983203938BD005CD5B4 /* ResponsiveLayout.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,10 +200,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFDA995A2033F10B005CD5B4 /* FeedsViewController.m in Sources */,
+				EFDA9984203938BD005CD5B4 /* ResponsiveLayout.m in Sources */,
 				EFDA997E2038BAE5005CD5B4 /* ImageCell.m in Sources */,
 				EFDA99722033F493005CD5B4 /* HTTPService.m in Sources */,
 				EFDA9978203415E2005CD5B4 /* Image.m in Sources */,
 				EFDA99652033F10B005CD5B4 /* main.m in Sources */,
+				EFDA99812038EB18005CD5B4 /* CollectionViewFlowLayout.m in Sources */,
 				EFDA99572033F10B005CD5B4 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
