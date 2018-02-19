@@ -15,7 +15,9 @@
 #define URL_FORMAT "json"
 #define URL_NOJSONCALLBACK "1"
 #define URL_EXTRAS "url_t,url_c,url_l,url_o"
+#define URL_TAGS "great white sharks, tiger shark, blue shark, mako shark, hammerhead shark"
 #define URL_SAFESEARCH "1"
+#define URL_CONTENTTYPE "1"
 
 @interface  HTTPService() {
   int pageNumber;
@@ -53,6 +55,8 @@
                                @"page": [@(pageNumber) stringValue],
                                @"extras": @URL_EXTRAS,
                                @"safe_search": @URL_SAFESEARCH,
+                               @"content_type": @URL_CONTENTTYPE,
+                               @"tags": @URL_TAGS
                                };
   
   // call helper method to build url with parameters
