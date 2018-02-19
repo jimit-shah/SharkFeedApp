@@ -11,7 +11,9 @@
 @interface Image : NSObject
   
 @property(nonatomic,strong) NSString *imageURL;
+@property(nonatomic,strong) NSString *imageLURL;
+@property(nonatomic,strong) NSString *imageOURL;
 @property(nonatomic,strong) NSString *imageId;
-
+@property(nonatomic,strong) NSString *title;
   
 @end

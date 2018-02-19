@@ -10,37 +10,46 @@
 #import "Image.h"
 
 @interface LightBoxViewController()
-#pragma mark - Properties
-//@property (strong, nonatomic) Image *image;
-//@property(nonatomic,strong) NSString *imageURL;
-//@property(nonatomic,strong) NSString *imageId;
+@property (weak, nonatomic) IBOutlet UIImageView *sharkImageView;
+@property (weak, nonatomic) IBOutlet UITextView *titleTextView;
+@property (assign) BOOL isFullScreen;
 @end
 
 @implementation LightBoxViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.imageData = [[Image alloc]init];
+  self.isFullScreen = YES;
+  [self updateUI: self.imageData];
+  self.navigationController.navigationBar.translucent = YES;
+  [self.navigationController setNavigationBarHidden:YES];
+  //self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+- (IBAction)toggleButtonTouched:(id)sender {
+  if (self.isFullScreen) {
+    [self.navigationController setNavigationBarHidden:self.isFullScreen];
+    self.isFullScreen = NO;
+  } else {
+    [self.navigationController setNavigationBarHidden:self.isFullScreen];
+    self.isFullScreen = YES;
+  }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 - (IBAction)downloadTapped:(UIButton *)sender {
+  
 }
+
 - (IBAction)openTapped:(UIButton *)sender {
+  
 }
 
-/*
-#pragma mark - Navigation
+-(void)updateUI:(nonnull Image*)Image {
+     
+     UIImage *sharkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:Image.imageLURL]]];
+     self.sharkImageView.image = sharkImage;
+    self.titleTextView.text = Image.title;
+   }
+   
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

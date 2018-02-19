@@ -11,6 +11,7 @@
 #import "HTTPService.h"
 #import "Image.h"
 #import "ImageCell.h"
+#import "LightBoxViewController.h"
 
 
 @interface FeedsViewController () {
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) UIImageView *refresh_spinner;
 @property (nonatomic, strong) UILabel *refreshLabel;
 @property (assign) BOOL isRefreshIconsOverlap;
+//@property (strong, nonatomic) LightBoxViewController *lightBoxViewController;
 
 #pragma mark - Outlets
 
@@ -240,13 +242,14 @@
               Image *image = [[Image alloc]init];
               image.imageId = [images objectForKey:@"id"];
               image.imageURL = [images objectForKey:@"url_t"];
-              
+              image.imageLURL = [images objectForKey:@"url_l"];
+              image.imageOURL = [images objectForKey:@"url_o"];
+              image.title = [images objectForKey:@"title"];
               [array addObject:image];
             }
           }
         }
       }
-      
       // Replace data with new data
       self.imageList = array;
       
@@ -254,7 +257,7 @@
       
       dispatch_async(dispatch_get_main_queue(), ^{
         NSLog(@"Done");
-        [self updateCollectionViewData];
+        [self.collectionView reloadData];
         [refresh endRefreshing];
         [self resetRefreshControl];
       });
@@ -263,7 +266,6 @@
       NSLog(@"Error: %@", errMessage);
     }
   }];
-  
 }
 
 - (void) resetRefreshControl {
@@ -295,7 +297,9 @@
               Image *image = [[Image alloc]init];
               image.imageId = [images objectForKey:@"id"];
               image.imageURL = [images objectForKey:@"url_t"];
-              
+              image.imageLURL = [images objectForKey:@"url_l"];
+              image.imageOURL = [images objectForKey:@"url_o"];
+              image.title = [images objectForKey:@"title"];
               [array addObject:image];
             }
           }
@@ -389,6 +393,13 @@
   return cell;
 }
 
+#pragma mark willDisplayCell
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.item == (self.imageList.count - 6)) {
+    [self getImages];
+  }
+}
+
 #pragma mark - Collection view delegate
 
 #pragma mark didSelectItemAtIndexPath
@@ -396,15 +407,13 @@
  - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
    Image *selectedImage = [self.imageList objectAtIndex:indexPath.row];
-   NSLog(@"selected=%@", selectedImage.imageId);
-   NSLog(@"selected=%@", selectedImage.imageURL);
-   //[self performSegueWithIdentifier:@"SegueLightBox" sender:collectionView];
+   NSLog(@"selected IMAGE_ID = %@", selectedImage.imageId);
+   NSLog(@"selected imageURL = %@", selectedImage.imageURL);
+   NSLog(@"selected TITLE = %@", selectedImage.title);
    
-   UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-   
-   UIViewController *lightBoxVC = [storyboard instantiateViewControllerWithIdentifier:@"LightBoxViewController"];
-//   lightBoxVC.image = selectedImage;
-   [self.navigationController pushViewController:lightBoxVC animated:YES];
+   LightBoxViewController *lightBoxViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"LightBoxViewController"];
+   lightBoxViewController.imageData = selectedImage;
+   [self.navigationController pushViewController:lightBoxViewController animated:true];
  }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -452,15 +461,6 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
   
   return inset;
-}
-
-
-#pragma mark - UIScrollView
-
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.item == (self.imageList.count - 1)) {
-    [self getImages];
-  }
 }
 
 
