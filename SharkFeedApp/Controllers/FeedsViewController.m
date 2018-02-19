@@ -37,7 +37,6 @@
 @property (nonatomic, strong) UIImageView *refresh_spinner;
 @property (nonatomic, strong) UILabel *refreshLabel;
 @property (assign) BOOL isRefreshIconsOverlap;
-//@property (strong, nonatomic) LightBoxViewController *lightBoxViewController;
 
 #pragma mark - Outlets
 
@@ -416,16 +415,9 @@
    [self.navigationController pushViewController:lightBoxViewController animated:true];
  }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([segue.identifier isEqualToString:@"SegueLightBox"]) {
-    //Do something
-//    LightBoxViewController *lightBoxVC = (LightBoxViewController*)segue.destinationViewController;
-    
-  }
-}
+
 
 #pragma mark - UICollection View Flow Layout
-
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
   
@@ -462,7 +454,6 @@
   
   return inset;
 }
-
 
 
 
